@@ -12,4 +12,10 @@ const getAllProductServices = async () => {
   return result;
 };
 
-export { createProductServices, getAllProductServices };
+const getProductByIdServices = async (id: string) => {
+  console.log(id);
+  const result = await ProductModal.findById(id);
+  return result;
+};
+
+export { createProductServices, getAllProductServices, getProductByIdServices };

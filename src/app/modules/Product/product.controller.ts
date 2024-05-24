@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
   createProductServices,
   getAllProductServices,
+  getProductByIdServices,
 } from "./product.service";
 import { sendRes } from "../../../util/sendRes/sendRes";
 
@@ -47,4 +48,25 @@ const getAllProducts = async (req: Request, res: Response) => {
   }
 };
 
-export { createProduct, getAllProducts };
+const getProductById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const result = await getProductByIdServices(id);
+
+    sendRes({
+      res,
+      data: result,
+      messages: "Product fetched successfully!",
+      status: 200,
+    });
+  } catch (error) {
+    sendRes({
+      res,
+      error,
+      messages: "something Went Wrong",
+      status: 500,
+    });
+  }
+};
+
+export { createProduct, getAllProducts, getProductById };
