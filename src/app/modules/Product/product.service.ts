@@ -13,9 +13,27 @@ const getAllProductServices = async () => {
 };
 
 const getProductByIdServices = async (id: string) => {
-  console.log(id);
   const result = await ProductModal.findById(id);
   return result;
 };
 
-export { createProductServices, getAllProductServices, getProductByIdServices };
+const updateQuantityById = async (_id: string, quantity: number) => {
+  const result = await ProductModal.findByIdAndUpdate(
+    { _id },
+    {
+      $set: {
+        inventory: {
+          quantity: quantity,
+        },
+      },
+    }
+  );
+  return result;
+};
+
+export {
+  createProductServices,
+  getAllProductServices,
+  getProductByIdServices,
+  updateQuantityById,
+};

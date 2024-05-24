@@ -3,6 +3,7 @@ import {
   createProductServices,
   getAllProductServices,
   getProductByIdServices,
+  updateQuantityById,
 } from "./product.service";
 import { sendRes } from "../../../util/sendRes/sendRes";
 
@@ -69,4 +70,26 @@ const getProductById = async (req: Request, res: Response) => {
   }
 };
 
-export { createProduct, getAllProducts, getProductById };
+const updateOneQuantity = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { quantity } = req.body;
+    console.log(quantity);
+    const result = await updateQuantityById(id, quantity);
+    sendRes({
+      res,
+      data: result,
+      messages: "Product updated successfully!",
+      status: 200,
+    });
+  } catch (error) {
+    sendRes({
+      res,
+      error,
+      messages: "something Went Wrong",
+      status: 500,
+    });
+  }
+};
+
+export { createProduct, getAllProducts, getProductById, updateOneQuantity };
