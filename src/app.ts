@@ -1,9 +1,14 @@
-import express from "express";
+import express, { Request, Response } from "express";
+import { productRoute } from "./app/modules/Product/product.route";
 const app = express();
 
-app.get("/", (req, res) => {
+app.use("/api/products", productRoute);
+
+app.get("*", (req: Request, res: Response) => {
   res.json({
-    name: "zihad",
+    success: false,
+    message: "route not found ",
+    data: {},
   });
 });
 
