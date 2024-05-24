@@ -17,7 +17,7 @@ const getProductByIdServices = async (id: string) => {
   return result;
 };
 
-const updateQuantityById = async (_id: string, quantity: number) => {
+const updateQuantityServices = async (_id: string, quantity: number) => {
   const result = await ProductModal.findByIdAndUpdate(
     { _id },
     {
@@ -31,9 +31,15 @@ const updateQuantityById = async (_id: string, quantity: number) => {
   return result;
 };
 
+const deleteProductServices = async (id: string) => {
+  const result = await ProductModal.findByIdAndDelete(id);
+  return result;
+};
+
 export {
   createProductServices,
   getAllProductServices,
   getProductByIdServices,
-  updateQuantityById,
+  updateQuantityServices,
+  deleteProductServices,
 };

@@ -1,16 +1,18 @@
 import { Router } from "express";
 import {
-  createProduct,
-  getAllProducts,
-  getProductById,
-  updateOneQuantity,
+  createProductController,
+  getAllProductsController,
+  getProductByIdController,
+  updateOneQuantityController,
+  deleteProductController,
 } from "./product.controller";
 
 const productRoute = Router();
 
-productRoute.post("/", createProduct);
-productRoute.get("/", getAllProducts);
-productRoute.get("/:id", getProductById);
-productRoute.put("/:id", updateOneQuantity);
+productRoute.post("/", createProductController);
+productRoute.get("/", getAllProductsController);
+productRoute.get("/:id", getProductByIdController);
+productRoute.put("/:id", updateOneQuantityController);
+productRoute.delete("/:id", deleteProductController);
 
 export { productRoute };

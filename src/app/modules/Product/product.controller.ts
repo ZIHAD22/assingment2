@@ -1,13 +1,14 @@
 import { Request, Response } from "express";
 import {
   createProductServices,
+  deleteProductServices,
   getAllProductServices,
   getProductByIdServices,
-  updateQuantityById,
+  updateQuantityServices,
 } from "./product.service";
 import { sendRes } from "../../../util/sendRes/sendRes";
 
-const createProduct = async (req: Request, res: Response) => {
+const createProductController = async (req: Request, res: Response) => {
   try {
     const productData = req.body;
 
@@ -29,7 +30,7 @@ const createProduct = async (req: Request, res: Response) => {
   }
 };
 
-const getAllProducts = async (req: Request, res: Response) => {
+const getAllProductsController = async (req: Request, res: Response) => {
   try {
     const result = await getAllProductServices();
 
@@ -49,7 +50,7 @@ const getAllProducts = async (req: Request, res: Response) => {
   }
 };
 
-const getProductById = async (req: Request, res: Response) => {
+const getProductByIdController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const result = await getProductByIdServices(id);
@@ -70,12 +71,12 @@ const getProductById = async (req: Request, res: Response) => {
   }
 };
 
-const updateOneQuantity = async (req: Request, res: Response) => {
+const updateOneQuantityController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { quantity } = req.body;
     console.log(quantity);
-    const result = await updateQuantityById(id, quantity);
+    const result = await updateQuantityServices(id, quantity);
     sendRes({
       res,
       data: result,
@@ -92,4 +93,30 @@ const updateOneQuantity = async (req: Request, res: Response) => {
   }
 };
 
-export { createProduct, getAllProducts, getProductById, updateOneQuantity };
+const deleteProductController = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    await deleteProductServices(id);
+    sendRes({
+      res,
+      data: null,
+      messages: "Product deleted successfully!",
+      status: 200,
+    });
+  } catch (error) {
+    sendRes({
+      res,
+      error,
+      messages: "something Went Wrong",
+      status: 500,
+    });
+  }
+};
+
+export {
+  createProductController,
+  getAllProductsController,
+  getProductByIdController,
+  updateOneQuantityController,
+  deleteProductController,
+};
