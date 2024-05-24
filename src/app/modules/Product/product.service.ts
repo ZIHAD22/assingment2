@@ -36,10 +36,17 @@ const deleteProductServices = async (id: string) => {
   return result;
 };
 
+const searchByTagServices = async (tag: string) => {
+  const result = await ProductModal.find({ tags: { $in: [tag] } });
+
+  return result;
+};
+
 export {
   createProductServices,
   getAllProductServices,
   getProductByIdServices,
   updateQuantityServices,
   deleteProductServices,
+  searchByTagServices,
 };

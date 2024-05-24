@@ -4,6 +4,7 @@ import {
   deleteProductServices,
   getAllProductServices,
   getProductByIdServices,
+  searchByTagServices,
   updateQuantityServices,
 } from "./product.service";
 import { sendRes } from "../../../util/sendRes/sendRes";
@@ -32,14 +33,12 @@ const createProductController = async (req: Request, res: Response) => {
 
 const getAllProductsController = async (req: Request, res: Response) => {
   try {
-    const result = await getAllProductServices();
-
-    sendRes({
-      res,
-      data: result,
-      messages: "all ok",
-      status: 200,
-    });
+    const { searchTerm } = req.query;
+    if (searchTerm) {
+      searchProduct(req, res);
+    } else {
+      getAllProduct(req, res);
+    }
   } catch (e) {
     sendRes({
       res,
@@ -111,6 +110,42 @@ const deleteProductController = async (req: Request, res: Response) => {
       status: 500,
     });
   }
+};
+
+// this function search in tags and return all match data this is a helper function of getAllProductsController
+const searchProduct = async (req: Request, res: Response) => {
+  try {
+    const { searchTerm } = req.query;
+    console.log(searchTerm);
+    if (typeof searchTerm === "string") {
+      const result = await searchByTagServices(searchTerm);
+      sendRes({
+        res,
+        data: result,
+        messages: `Products matching search term '${searchTerm}' fetched successfully!`,
+        status: 200,
+      });
+    }
+  } catch (error) {
+    sendRes({
+      res,
+      error,
+      messages: "something Went Wrong",
+      status: 500,
+    });
+  }
+};
+
+// this function return all data and this is a helper function of getAllProductsController
+const getAllProduct = async (req: Request, res: Response) => {
+  const result = await getAllProductServices();
+
+  sendRes({
+    res,
+    data: result,
+    messages: "all ok",
+    status: 200,
+  });
 };
 
 export {
