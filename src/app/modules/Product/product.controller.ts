@@ -75,7 +75,6 @@ const updateOneQuantityController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { quantity } = req.body;
-    console.log(quantity);
     const result = await updateQuantityServices(id, quantity);
     sendRes({
       res,
@@ -117,7 +116,6 @@ const deleteProductController = async (req: Request, res: Response) => {
 const searchProduct = async (req: Request, res: Response) => {
   try {
     const { searchTerm } = req.query;
-    console.log(searchTerm);
     if (typeof searchTerm === "string") {
       const result = await searchByTagServices(searchTerm);
       sendRes({
