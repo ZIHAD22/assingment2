@@ -12,6 +12,12 @@ app.use(cors());
 app.use("/api/products", productRoute);
 app.use("/api/orders", orderRoute);
 
+app.get("/", (req: Request, res: Response) => {
+  res.status(200).json({
+    message: "server is running",
+  });
+});
+
 app.get("*", (req: Request, res: Response) => {
   res.json({
     success: false,
