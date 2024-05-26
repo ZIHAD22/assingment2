@@ -8,16 +8,20 @@ import { OrderT } from "./order.interface";
 import { sendRes } from "../../../util/sendRes/sendRes";
 
 import { updateQuantityServices } from "../Product/product.service";
+import { OrderValidationSchema } from "./order.validation";
 
 const createOrder = async (req: Request, res: Response) => {
   try {
-    const { email, price, productId, quantity }: OrderT = req.body;
-    const updatePrice = price * quantity;
-
-    const productData = await findProductPriceQuantityService(productId);
+    const orderData: OrderT = req.body;
+    const validatedOrderData = OrderValidationSchema.parse(orderData);
+    const productData = await findProductPriceQuantityService(
+      validatedOrderData.productId
+    );
 
     // check for Insufficient quantity
     if (productData?.inventory.quantity) {
+      const { email, price, productId, quantity } = validatedOrderData;
+      const updatePrice = price * quantity;
       const data = await createOrderServices({
         email,
         productId,

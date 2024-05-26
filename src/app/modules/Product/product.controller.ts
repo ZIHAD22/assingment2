@@ -8,12 +8,13 @@ import {
   updateQuantityServices,
 } from "./product.service";
 import { sendRes } from "../../../util/sendRes/sendRes";
+import { ProductValidationSchema } from "./product.validation";
 
 const createProductController = async (req: Request, res: Response) => {
   try {
     const productData = req.body;
-
-    const result = await createProductServices(productData);
+    const validatedProductData = ProductValidationSchema.parse(productData);
+    const result = await createProductServices(validatedProductData);
 
     sendRes({
       res,
