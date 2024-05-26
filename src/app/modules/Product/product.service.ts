@@ -22,12 +22,11 @@ const updateQuantityServices = async (_id: string, quantity: number) => {
     { _id },
     {
       $set: {
-        inventory: {
-          quantity: quantity,
-        },
+        "inventory.quantity": quantity,
       },
     }
   );
+
   return result;
 };
 
