@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
   createOrderServices,
   findProductPriceQuantityService,
+  getALlOrdersService,
 } from "./order.services";
 import { OrderT } from "./order.interface";
 import { sendRes } from "../../../util/sendRes/sendRes";
@@ -51,4 +52,25 @@ const createOrder = async (req: Request, res: Response) => {
   }
 };
 
-export { createOrder };
+const getAllOrder = async (req: Request, res: Response) => {
+  try {
+    const { email } = req.query;
+
+    const data = await getALlOrdersService(email as string);
+    sendRes({
+      res,
+      data,
+      messages: "Order created successfully!",
+      status: 200,
+    });
+  } catch (error) {
+    sendRes({
+      res,
+      error,
+      messages: "something Went Wrong",
+      status: 500,
+    });
+  }
+};
+
+export { createOrder, getAllOrder };

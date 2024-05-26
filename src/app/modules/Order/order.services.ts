@@ -25,8 +25,18 @@ const updateInstockService = async (_id: string) => {
   return result;
 };
 
+const getALlOrdersService = async (email?: string) => {
+  if (email) {
+    const result = await OrderModel.find({ email });
+    return result;
+  }
+  const result = await OrderModel.find();
+  return result;
+};
+
 export {
   createOrderServices,
   findProductPriceQuantityService,
   updateInstockService,
+  getALlOrdersService,
 };

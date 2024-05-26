@@ -1,13 +1,9 @@
-import { Request, Response, Router } from "express";
-import { createOrder } from "./order.controller";
+import { Router } from "express";
+import { createOrder, getAllOrder } from "./order.controller";
 
 const orderRoute = Router();
 
-orderRoute.get("/", (req: Request, res: Response) => {
-  res.json({
-    order: "ok",
-  });
-});
+orderRoute.get("/", getAllOrder);
 orderRoute.post("/", createOrder);
 
 export { orderRoute };
