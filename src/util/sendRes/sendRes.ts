@@ -5,7 +5,10 @@ const sendRes = ({ res, data, error, messages, success, status }: Info) => {
     return res.status(status).json({
       success: success ? success : false,
       messages,
-      error,
+      error: {
+        messages: error.message,
+        error,
+      },
     });
   }
 

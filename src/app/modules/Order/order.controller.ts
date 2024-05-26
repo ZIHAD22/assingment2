@@ -35,12 +35,7 @@ const createOrder = async (req: Request, res: Response) => {
         status: 200,
       });
     } else {
-      sendRes({
-        res,
-        data: null,
-        messages: "Insufficient quantity available in inventory",
-        status: 500,
-      });
+      throw new Error("Insufficient quantity available in inventory");
     }
   } catch (error) {
     sendRes({
@@ -57,17 +52,20 @@ const getAllOrder = async (req: Request, res: Response) => {
     const { email } = req.query;
 
     const data = await getALlOrdersService(email as string);
+    if (data.length === 0) {
+      throw new Error("Order not found");
+    }
     sendRes({
       res,
       data,
-      messages: "Order created successfully!",
+      messages: `Orders fetched successfully${email ? " For user email" : "!"}`,
       status: 200,
     });
-  } catch (error) {
+  } catch (error: any) {
     sendRes({
       res,
       error,
-      messages: "something Went Wrong",
+      messages: error.message ? error.message : "something Went Wrong",
       status: 500,
     });
   }
